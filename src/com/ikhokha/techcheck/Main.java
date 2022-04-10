@@ -10,15 +10,13 @@ public class Main {
 		
 		Map<String, Integer> totalResults = new HashMap<>();
 				
-		File docPath = new File("docs");
-		File[] commentFiles = docPath.listFiles((d, n) -> n.endsWith(".txt"));
+		File commentFolder = new File("docs");
+		File[] commentFiles = commentFolder.listFiles((d, n) -> n.endsWith(".txt"));
 		
 		for (File commentFile : commentFiles) {
-			
 			CommentAnalyzer commentAnalyzer = new CommentAnalyzer(commentFile);
 			Map<String, Integer> fileResults = commentAnalyzer.analyze();
-			addReportResults(fileResults, totalResults);
-						
+			addReportResults(fileResults, totalResults);						
 		}
 		
 		System.out.println("RESULTS\n=======");
@@ -27,13 +25,17 @@ public class Main {
 	
 	/**
 	 * This method adds the result counts from a source map to the target map 
-	 * @param source the source map
-	 * @param target the target map
+	 * @param fileMap the source map
+	 * @param totalMap the target map
 	 */
-	private static void addReportResults(Map<String, Integer> source, Map<String, Integer> target) {
+	private static void addReportResults(Map<String, Integer> fileMap, Map<String, Integer> totalMap) {
 
-		for (Map.Entry<String, Integer> entry : source.entrySet()) {
-			target.put(entry.getKey(), entry.getValue());
+		for (Map.Entry<String, Integer> entry : fileMap.entrySet()) {
+			var key = entry.getKey();
+			var metricsCount = entry.getValue();
+
+			totalMap.putIfAbsent(key, 0);
+			totalMap.put(key, totalMap.get(key) + metricsCount);
 		}
 		
 	}

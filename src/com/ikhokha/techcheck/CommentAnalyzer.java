@@ -11,6 +11,7 @@ import java.util.Map;
 public class CommentAnalyzer {
 	
 	private File file;
+	public String[] metrics;
 	
 	public CommentAnalyzer(File file) {
 		this.file = file;
@@ -58,7 +59,6 @@ public class CommentAnalyzer {
 	 * @param key the key for the value to increment
 	 */
 	private void incOccurrence(Map<String, Integer> countMap, String key) {
-		
 		countMap.putIfAbsent(key, 0);
 		countMap.put(key, countMap.get(key) + 1);
 	}
